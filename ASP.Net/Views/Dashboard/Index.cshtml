@@ -1,0 +1,329 @@
+﻿@model SmartAirPort.Models.ViewModels.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container-fluid py-4 bg-light min-vh-100">
+
+    <h2 class="fw-bold mb-1">SmartAirPort Dashboard</h2>
+    <p class="text-muted mb-4">
+        Airport operations overview
+    </p>
+
+    <div class="row g-3 mb-4">
+
+        <div class="col-md-6 col-xl-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <p class="text-muted mb-2">Total Flights</p>
+                    <h2 class="fw-bold text-primary">
+                        @Model.TotalFlights
+                    </h2>
+                    <small class="text-muted">From the database</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <p class="text-muted mb-2">Delayed Flights</p>
+                    <h2 class="fw-bold text-danger">
+                        @Model.DelayedFlights
+                    </h2>
+                    <small class="text-muted">Based on flight status</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <p class="text-muted mb-2">Total Aircraft</p>
+                    <h2 class="fw-bold text-info">
+                        @Model.TotalAircraft
+                    </h2>
+                    <small class="text-muted">Registered aircraft</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <p class="text-muted mb-2">Available Gates</p>
+                    <h2 class="fw-bold text-success">
+                        @Model.AvailableGates
+                    </h2>
+                    <small class="text-muted">Currently available</small>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row g-3 mb-4">
+
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+
+                    <h5 class="fw-bold mb-1">
+                        Flight Status Distribution
+                    </h5>
+
+                    <p class="text-muted mb-3">
+                        Overview of flights by status
+                    </p>
+
+                    <div style="height: 300px;">
+                        <canvas id="flightStatusChart"></canvas>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+
+                    <h5 class="fw-bold mb-1">
+                        Flights by Airline
+                    </h5>
+
+                    <p class="text-muted mb-3">
+                        Number of flights for each airline
+                    </p>
+
+                    <div style="height: 300px;">
+                        <canvas id="airlineFlightsChart"></canvas>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body">
+
+            <h4 class="fw-bold mb-2">Upcoming Flights</h4>
+
+            <p class="text-muted mb-4">
+                The next five flights ordered by departure time
+            </p>
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Flight Number</th>
+                            <th>Airline</th>
+                            <th>Departure Airport</th>
+                            <th>Arrival Airport</th>
+                            <th>Departure Time</th>
+                            <th>Arrival Time</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @if (Model.UpcomingFlights.Any())
+                        {
+                            @foreach (var flight in Model.UpcomingFlights)
+                            {
+                                <tr>
+
+                                    <td class="fw-bold">
+                                        @flight.FlightNumber
+                                    </td>
+
+                                    <td>
+                                        @(flight.Airline?.Name ?? "N/A")
+                                    </td>
+
+                                    <td>
+                                        @flight.DepartureAirport
+                                    </td>
+
+                                    <td>
+                                        @flight.ArrivalAirport
+                                    </td>
+
+                                    <td>
+                                        @flight.DepartureTime.ToString("dd/MM/yyyy HH:mm")
+                                    </td>
+
+                                    <td>
+                                        @flight.ArrivalTime.ToString("dd/MM/yyyy HH:mm")
+                                    </td>
+
+                                    <td>
+                                        <span class="badge
+                                            @(flight.Status == "Delayed" ? "bg-danger" :
+  flight.Status == "Scheduled" ? "bg-primary" :
+  flight.Status == "Arrived" ? "bg-success" :
+  flight.Status == "Boarding" ? "bg-info text-dark" :
+  flight.Status == "Departed" ? "bg-secondary" :
+  flight.Status == "Cancelled" ? "bg-dark" :
+  "bg-secondary")">
+
+                                            @flight.Status
+
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <a asp-controller="Flights"
+                                           asp-action="Details"
+                                           asp-route-id="@flight.Id"
+                                           class="btn btn-sm btn-outline-primary">
+
+                                            View Details
+
+                                        </a>
+                                    </td>
+
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="8"
+                                    class="text-center text-muted py-4">
+
+                                    No upcoming flights available.
+
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+
+    const statusLabels = @Html.Raw(
+                System.Text.Json.JsonSerializer.Serialize(
+                        Model.FlightStatuses.Select(x => x.Status)
+                )
+        );
+
+    const statusCounts = @Html.Raw(
+                System.Text.Json.JsonSerializer.Serialize(
+                        Model.FlightStatuses.Select(x => x.Count)
+                )
+        );
+
+    new Chart(document.getElementById('flightStatusChart'), {
+
+        type: 'doughnut',
+
+        data: {
+            labels: statusLabels,
+
+            datasets: [{
+                data: statusCounts,
+
+                backgroundColor: [
+                    '#0d6efd',
+                    '#ffc107',
+                    '#198754',
+                    '#dc3545',
+                    '#0dcaf0',
+                    '#6c757d'
+                ],
+
+                borderWidth: 2
+            }]
+        },
+
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+
+    });
+
+
+    const airlineLabels = @Html.Raw(
+                System.Text.Json.JsonSerializer.Serialize(
+                        Model.FlightsByAirline.Select(x => x.AirlineName)
+                )
+        );
+
+    const airlineCounts = @Html.Raw(
+                System.Text.Json.JsonSerializer.Serialize(
+                        Model.FlightsByAirline.Select(x => x.FlightCount)
+                )
+        );
+
+    new Chart(document.getElementById('airlineFlightsChart'), {
+
+        type: 'bar',
+
+        data: {
+            labels: airlineLabels,
+
+            datasets: [{
+                label: 'Number of Flights',
+
+                data: airlineCounts,
+
+                backgroundColor: '#0d6efd',
+
+                borderRadius: 6
+            }]
+        },
+
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+
+            scales: {
+                y: {
+                    beginAtZero: true,
+
+                    ticks: {
+                        precision: 0
+                    }
+                }
+            }
+        }
+
+    });
+
+</script>

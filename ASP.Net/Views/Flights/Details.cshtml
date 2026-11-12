@@ -1,0 +1,120 @@
+@model SmartAirPort.Models.Flight
+
+@{
+    ViewData["Title"] = "Flight Details";
+
+    var statusClass = Model.Status switch
+    {
+        "Scheduled" => "bg-success",
+        "Boarding" => "bg-warning text-dark",
+        "Departed" => "bg-danger",
+        "Arrived" => "bg-secondary",
+        "Delayed" => "bg-warning text-dark",
+        "Cancelled" => "bg-dark",
+        _ => "bg-secondary"
+    };
+}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2>Flight Details</h2>
+            <p class="text-muted">View complete flight information</p>
+        </div>
+
+        <div class="d-flex gap-2">
+            <a asp-action="Edit"
+               asp-route-id="@Model.Id"
+               class="btn btn-primary">
+                Edit Flight
+            </a>
+
+            <a asp-action="Index"
+               class="btn btn-outline-secondary">
+                Back to Flights
+            </a>
+        </div>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+                <div>
+                    <p class="text-muted mb-1">Flight Number</p>
+                    <h3 class="mb-0">@Model.FlightNumber</h3>
+                </div>
+
+                <div>
+                    <span class="badge @statusClass fs-6">
+                        @Model.Status
+                    </span>
+                </div>
+
+            </div>
+
+            <hr />
+
+            <div class="row text-center">
+
+                <div class="col-md-5">
+                    <p class="text-muted mb-1">Departure</p>
+                    <h4>@Model.DepartureAirport</h4>
+                    <p class="mb-0">
+                        @Model.DepartureTime.ToString("dd MMM yyyy")
+                    </p>
+                    <h5>
+                        @Model.DepartureTime.ToString("hh:mm tt")
+                    </h5>
+                </div>
+
+                <div class="col-md-2 d-flex align-items-center justify-content-center">
+                    <span class="text-muted fs-4">→</span>
+                </div>
+
+                <div class="col-md-5">
+                    <p class="text-muted mb-1">Arrival</p>
+                    <h4>@Model.ArrivalAirport</h4>
+                    <p class="mb-0">
+                        @Model.ArrivalTime.ToString("dd MMM yyyy")
+                    </p>
+                    <h5>
+                        @Model.ArrivalTime.ToString("hh:mm tt")
+                    </h5>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <h5 class="mb-4">Additional Information</h5>
+
+            <div class="row g-4">
+
+                <div class="col-md-4">
+                    <p class="text-muted mb-1">Airline</p>
+                    <h6>@(Model.Airline?.Name ?? "Not assigned")</h6>
+                </div>
+
+                <div class="col-md-4">
+                    <p class="text-muted mb-1">Aircraft</p>
+                    <h6>@(Model.Aircraft?.RegistrationNumber ?? "Not assigned")</h6>
+                </div>
+
+                <div class="col-md-4">
+                    <p class="text-muted mb-1">Gate</p>
+                    <h6>@(Model.Gate?.GateNumber ?? "Not assigned")</h6>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>

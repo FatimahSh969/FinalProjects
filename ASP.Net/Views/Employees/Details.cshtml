@@ -1,0 +1,32 @@
+﻿@model Employee
+@{
+    ViewData["Title"] = "Employee Info";
+}
+<h1 class="text-center">Employee Details</h1>
+
+<form asp-action="/" method="post">
+    <input type="hidden" asp-for="Id" name="Id" id="Id"  value="@Model.Id"/>
+    <label>Employee Name :</label>
+    <input type="text" asp-for="Name" name="Name" id="Name" placeholder="Enter Your Name" disabled/>
+    <br /><br />
+    <label>Employee Email :</label>
+    <input type="email" asp-for="Email" name="Email" id="Email" placeholder="Enter Your Email" disabled/>
+    <br /><br />
+    <label>Employee Phone :</label>
+    <input type="tel" asp-for="Phone" name="Phone" id="Phone" placeholder="Enter Your Phone" disabled/>
+    <br /><br />
+    <label>Employee Address :</label>
+    <input type="text" asp-for="Address" name="Address" id="Address" placeholder="Enter Your Address" disabled/>
+    <br /><br />
+    <label>Employee Salary :</label>
+    <input type="number" asp-for="Salary" name="Salary" id="Salary" placeholder="Enter Your Salary" min="3000" max="10000" title="Enter a salary between $3,000 and $10,000" disabled/>
+    <br /><br />
+    <label>Employee Department :</label>
+    <input type="text" asp-for="Department.Name" name="DepartmentId" id="DepartmentId" disabled/>
+    <br /><br />
+    <a class="btn btn-warning" asp-action="Update" asp-route-id="@Model.Id">Edit</a>
+    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+    <a class="btn btn-secondary" asp-action="Index">Employee Page</a>
+
+</form>
+

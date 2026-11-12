@@ -1,0 +1,95 @@
+@model IEnumerable<Gate>
+
+@{
+    ViewData["Title"] = "Gates";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.GateNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Terminal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GateType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => item.GateNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Terminal)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.GateType)
+            </td>
+                <td>
+                    @if (item.Status == "Available")
+                    {
+                        <span class="badge bg-success">Available</span>
+                    }
+                    else if (item.Status == "Occupied")
+                    {
+                        <span class="badge bg-warning text-dark">Occupied</span>
+                    }
+                    else if (item.Status == "Maintenance")
+                    {
+                        <span class="badge bg-danger">Maintenance</span>
+                    }
+                    else if (item.Status == "Closed")
+                    {
+                        <span class="badge bg-secondary">Closed</span>
+                    }
+                </td>
+            <td>
+                @Html.DisplayFor(model => item.IsActive)
+            </td>
+
+                <td>
+                    <div class="action-buttons">
+                        <a asp-controller="Gates"
+                           asp-action="Edit"
+                           asp-route-id="@item.Id"
+                           class="btn btn-sm btn-outline-primary">
+                            Edit
+                        </a>
+
+                        <a asp-controller="Gates"
+                           asp-action="Details"
+                           asp-route-id="@item.Id"
+                           class="btn btn-sm btn-outline-secondary">
+                            Details
+                        </a>
+
+                        <a asp-controller="Gates"
+                           asp-action="Delete"
+                           asp-route-id="@item.Id"
+                           class="btn btn-sm btn-outline-danger">
+                            Delete
+                        </a>
+                    </div>
+                </td>
+
+        </tr>
+}
+    </tbody>
+</table>

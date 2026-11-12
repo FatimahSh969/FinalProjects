@@ -1,0 +1,97 @@
+@model SmartAirPort.Models.Airline
+@{ ViewData["Title"] = "Create"; 
+}
+
+<!-- Header -->
+<div class="mb-4">
+    <h2 class="fw-bold mb-1">Add New Airline</h2>
+    <p class="text-muted mb-0">
+        Enter the airline information below
+    </p>
+</div>
+
+<div class="row">
+    <div class="col-lg-8 col-xl-7">
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-header bg-white py-3">
+                <h5 class="fw-bold mb-0">
+                    <i class="bi bi-airplane me-2 text-primary"></i>
+                    Airline Information
+                </h5>
+            </div>
+
+            <div class="card-body p-4">
+
+                <form asp-action="Create">
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Name" class="form-label fw-semibold"></label>
+                        <input asp-for="Name" class="form-control form-control-lg" placeholder="Enter airline name" />
+                        <span asp-validation-for="Name" class="text-danger small"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Code" class="form-label fw-semibold"></label>
+                        <input asp-for="Code" class="form-control form-control-lg" placeholder="e.g. SV" />
+                        <span asp-validation-for="Code" class="text-danger small"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Country" class="form-label fw-semibold"></label>
+                        <input asp-for="Country" class="form-control form-control-lg" placeholder="Enter country" />
+                        <span asp-validation-for="Country" class="text-danger small"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Email" class="form-label fw-semibold"></label>
+                        <input asp-for="Email" class="form-control form-control-lg" placeholder="Enter email address" />
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Phone" class="form-label fw-semibold"></label>
+                        <input asp-for="Phone" class="form-control form-control-lg" placeholder="Enter phone number" />
+                        <span asp-validation-for="Phone" class="text-danger small"></span>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <div class="form-check form-switch">
+                            <input asp-for="IsActive" class="form-check-input" role="switch" />
+                            <label asp-for="IsActive" class="form-check-label fw-semibold"></label>
+                        </div>
+                        <span asp-validation-for="IsActive" class="text-danger small"></span>
+                    </div>
+
+                    <hr class="mb-4" />
+
+                    <div class="form-group d-flex gap-2">
+
+                        <input type="submit"
+                               value="Create Airline"
+                               class="btn btn-primary px-4 py-2" />
+
+                        <a asp-action="Index"
+                           class="btn btn-outline-secondary px-4 py-2">
+                            Cancel
+                        </a>
+
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="mt-3">
+    <a asp-action="Index" class="text-decoration-none">
+        <i class="bi bi-arrow-left me-1"></i>
+        Back to List
+    </a>
+</div>

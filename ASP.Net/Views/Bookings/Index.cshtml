@@ -1,0 +1,166 @@
+﻿@model IEnumerable<SmartAirPort.Models.Booking>
+
+@{
+    ViewData["Title"] = "Bookings";
+}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2>Booking Management</h2>
+            <p class="text-muted">Manage passenger bookings</p>
+        </div>
+
+        <a asp-action="Create" class="btn btn-primary">
+            + Add New Booking
+        </a>
+    </div>
+
+    <!-- Booking Filters -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+
+            <h5 class="mb-3">Booking Filters</h5>
+
+            <form asp-controller="Bookings" asp-action="Index" method="get">
+
+                <div class="row g-3">
+
+                    <div class="col-md-4">
+                        <label class="form-label">Search</label>
+                        <input type="text"
+                               name="searchTerm"
+                               value="@ViewBag.SearchTerm"
+                               class="form-control"
+                               placeholder="Booking reference, passenger or ID" />
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Flight</label>
+                        <select name="flightId"
+                                asp-items="ViewBag.FlightId"
+                                class="form-select">
+                            <option value="">All Flights</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Status</label>
+                        <select name="status"
+                                asp-items="ViewBag.Status"
+                                class="form-select">
+                            <option value="">All Statuses</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="d-flex justify-content-end gap-2 mt-3">
+
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        Reset
+                    </a>
+
+                    <button type="submit" class="btn btn-primary">
+                        Search
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+    <!-- Bookings Table -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead>
+                        <tr>
+                            <th>Reference</th>
+                            <th>Passenger</th>
+                            <th>ID / Passport</th>
+                            <th>Contact</th>
+                            <th>Flight</th>
+                            <th>Booking Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var booking in Model)
+                        {
+                            <tr>
+                                <td>@booking.BookingReference</td>
+                                <td>@booking.PassengerName</td>
+                                <td>@booking.PassengerIdNumber</td>
+                                <td>@booking.ContactNumber</td>
+
+                                <td>
+                                    @booking.Flight?.FlightNumber
+                                </td>
+
+                                <td>
+                                    @booking.BookingDate.ToString("dd MMM yyyy")
+                                </td>
+
+                                <td>
+                                    @if (booking.Status == "Confirmed")
+                                    {
+                                        <span class="badge bg-success">Confirmed</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">Cancelled</span>
+                                    }
+                                </td>
+
+                                <td>
+                                    <a asp-action="Edit"
+                                       asp-route-id="@booking.Id"
+                                       class="btn btn-sm btn-outline-primary">
+                                        Edit
+                                    </a>
+
+                                    @if (booking.Status == "Confirmed")
+                                    {
+                                        <form asp-action="Cancel"
+                                              asp-route-id="@booking.Id"
+                                              method="post"
+                                              class="d-inline"
+                                              onsubmit="return confirm('Cancel this booking?');">
+
+                                            <button type="submit"
+                                                    class="btn btn-sm btn-outline-danger">
+                                                Cancel
+                                            </button>
+
+                                        </form>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            @if (!Model.Any())
+            {
+                <p class="text-center text-muted mt-3">
+                    No bookings found.
+                </p>
+            }
+
+        </div>
+    </div>
+
+</div>

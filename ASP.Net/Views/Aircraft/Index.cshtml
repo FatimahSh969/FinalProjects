@@ -1,0 +1,101 @@
+@model IEnumerable<Aircraft>
+
+@{
+    ViewData["Title"] = "Aircraft";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RegistrationNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Model)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Manufacturer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Capacity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => item.RegistrationNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Model)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Manufacturer)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Capacity)
+            </td>
+                <td>
+                    @if (item.Status == "Available")
+                    {
+                        <span class="badge bg-success">Available</span>
+                    }
+                    else if (item.Status == "In Use")
+                    {
+                        <span class="badge bg-warning text-dark">In Use</span>
+                    }
+                    else if (item.Status == "Maintenance")
+                    {
+                        <span class="badge bg-danger">Maintenance</span>
+                    }
+                    else if (item.Status == "Retired")
+                    {
+                        <span class="badge bg-secondary">Retired</span>
+                    }
+                </td>
+            <td>
+                @Html.DisplayFor(model => item.IsActive)
+            </td>
+
+                <td>
+                    <div class="action-buttons">
+                        <a asp-controller="Aircraft"
+                           asp-action="Edit"
+                           asp-route-id="@item.Id"
+                           class="btn btn-sm btn-outline-primary">
+                            Edit
+                        </a>
+
+                        <a asp-controller="Aircraft"
+                           asp-action="Details"
+                           asp-route-id="@item.Id"
+                           class="btn btn-sm btn-outline-secondary">
+                            Details
+                        </a>
+
+                        <a asp-controller="Aircraft"
+                           asp-action="Delete"
+                           asp-route-id="@item.Id"
+                           class="btn btn-sm btn-outline-danger">
+                            Delete
+                        </a>
+                    </div>
+                </td>
+
+        </tr>
+}
+    </tbody>
+</table>

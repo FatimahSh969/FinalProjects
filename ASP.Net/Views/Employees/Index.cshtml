@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Employee>
+
+@{
+    ViewData["Title"] = "Employees index";
+}
+<h1>Employee Page</h1>
+@* <h1>Welcome @ViewBag.EmployeeName</h1>
+<p>ID: @ViewBag.EmployeeID</p>
+<p>Email: @ViewBag.EmployeeEmail</p>
+<p>Phone: @ViewBag.EmployeePhone</p> *@
+
+@* <h1>Employee Details</h1>
+<p>ID: @Model.Id</p>
+<p>Name: @Model.Name</p>
+<p>Email: @Model.Email</p>
+<p>Phone: @Model.Phone</p>
+<p>Address: @Model.Address</p>
+<p>City: @Model.City</p> *@
+
+<h1>Employee Info</h1>
+
+<a asp-action="Create" class="btn btn-primary">Add Employee</a>
+<a asp-action="Search" class="btn btn-outline">Search</a>
+<table class="table table-bord">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>Department</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var employee in Model)
+        {
+            <tr>
+                <td>@employee.Id</td>
+                <td>@employee.Name</td>
+                <td>@employee.Email</td>
+                <td>@employee.Phone</td>
+                <td>@employee.Address</td>
+                <td>@employee.Salary</td>
+                <td>@employee.Department?.Name</td>
+                <td>
+                    <a class="btn btn-secondary" asp-action="Details" asp-route-id="@employee.Id">Details</a>
+                    <a class="btn btn-warning" asp-action="Update" asp-route-id="@employee.Id">Edit</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@employee.Id">Delete</a>
+                </td>
+            </tr>
+
+        }
+    </tbody>
+    </table>
+  

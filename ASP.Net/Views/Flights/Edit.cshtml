@@ -1,0 +1,98 @@
+@model SmartAirPort.Models.Flight
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Flight</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="FlightNumber" class="control-label"></label>
+                <input asp-for="FlightNumber" class="form-control" />
+                <span asp-validation-for="FlightNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ArrivalAirport" class="control-label"></label>
+                <input asp-for="ArrivalAirport" class="form-control" />
+                <span asp-validation-for="ArrivalAirport" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DepartureAirport" class="control-label"></label>
+                <input asp-for="DepartureAirport" class="form-control" />
+                <span asp-validation-for="DepartureAirport" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DepartureTime" class="control-label"></label>
+                <input asp-for="DepartureTime" class="form-control" />
+                <span asp-validation-for="DepartureTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ArrivalTime" class="control-label"></label>
+                <input asp-for="ArrivalTime" class="form-control" />
+                <span asp-validation-for="ArrivalTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <select asp-for="Status" class="form-control">
+                    <option value="Scheduled">Scheduled</option>
+                    <option value="Boarding">Boarding</option>
+                    <option value="Departed">Departed</option>
+                    <option value="Arrived">Arrived</option>
+                    <option value="Delayed">Delayed</option>
+                    <option value="Cancelled">Cancelled</option>
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+
+            </div>
+            ```cshtml
+            <div class="form-group">
+                <label asp-for="AirlineId" class="control-label">Airline</label>
+                <select asp-for="AirlineId"
+                        asp-items="ViewBag.AirlineList"
+                        class="form-control">
+                    <option value="">Select Airline</option>
+                </select>
+                <span asp-validation-for="AirlineId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="AircraftId" class="control-label">Aircraft</label>
+                <select asp-for="AircraftId"
+                        asp-items="ViewBag.AircraftList"
+                        class="form-control">
+                    <option value="">Select Aircraft (Optional)</option>
+                </select>
+                <span asp-validation-for="AircraftId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="GateId" class="control-label">Gate</label>
+                <select asp-for="GateId"
+                        asp-items="ViewBag.GateList"
+                        class="form-control">
+                    <option value="">Select Gate (Optional)</option>
+                </select>
+                <span asp-validation-for="GateId" class="text-danger"></span>
+            </div>
+           
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
